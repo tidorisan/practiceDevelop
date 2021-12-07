@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    #canvas{
+      background-color: beige;
+    }
+
+  </style>
+
+  <script>
+    var img, bkimg;
+    var x = 100;
+    var y = 100;
+    var dx = 5;
+    var dy = 5;
+
+    function initial() {
+      canvas = document.querySelector("#canvas");
+
+      img = new Image();
+      img.src = "chichinohi_kuma_necktie.png";
+
+      bkimg = new  Image();
+      bkimg.src = "pastel_00019.jpg";
+      bkimg.onload = function () {
+        // 50ミリ秒ごとにdraw関数が呼び出される。
+        timer = setInterval(draw, 50);
+      }
+
+    }
+
+    // キーを押したときの処理
+    function draw() {
+        drawBackground();
+        drawImage();
+    }
+      
+      //背景の描画
+    function drawBackground() {
+      var context = canvas.getContext("2d");
+      // 指定した範囲に描かれた内容を全て処理する
+      context.clearRect(0,0,500,400);
+      context.drawImage(bkimg,0,0,500,500);
+    }
+
+    // イメージの描画
+    function drawImage(event) {
+      var context = canvas.getContext("2d");
+      x += dx;
+      y += dy;
+      // ｘが
+      if (x < 0) {dx *= -1;}
+      if (y < 0) {dy *= -1;}
+      //x,yの位置と imgの大きさがキャンバスよりも大きくなった場合「画面からはみ出した」右斜め上に移動する。
+      if(x + img.width > 500){dx *= -1;}
+      if(y + img.height > 500){dy *= -1;}
+      context.drawImage(img,x,y);
+    }
+  </script>
+</head>
+<body onload="initial();">
+  <h1>hello</h1>
+  <!--  キーボードのイベントは選択されている要素にイベントが送られる -->
+  <canvas id="canvas" width="500" height="500" tabIndex="0"></canvas>
+</body>
+</html>
+
+
